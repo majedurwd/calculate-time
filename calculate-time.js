@@ -1,22 +1,9 @@
+/**
+ * Calculate the duration between two times
+*/
 
-// Addition of Time
-
-// let fixedTime = "10:30:00 PM"
-// function additionOfTime(fixedTime) {
-//     let [fixedHours, fixedMinutesMeridiem] = fixedTime.split(":")
-//     let [fixedMinutes, fixedMeridiem] = fixedMinutesMeridiem.split(" ")
-//     const date = new Date()
-//     let hours = date.getHours()
-//     let minutes = date.getMinutes()
-//     let seconds = date.getSeconds()
-//     let meridiem = hours > 12 ? "PM": "AM"
-
-//     console.log(hours, meridiem)
-
-// }
-// additionOfTime(fixedTime)
-
-
+let fixedTime = '11:32:00 AM';
+let limitTime = new Date().toLocaleTimeString();
 
 // Convert String Time to Number Time
 function stringTimeToNumber(startTime) {
@@ -30,37 +17,123 @@ function stringTimeToNumber(startTime) {
     }
 }
 
-let fixedTime = "10:40:00 AM"
-let limitTime = "5:35:00 AM"
-
-// Calculate the duration between two from AM to AM
-function calculateAMtoAM(fixedTime, limitTime) {
-    let hours
-    let minutes
-    let seconds
-    const startTime = stringTimeToNumber(fixedTime)
-    const endTime = stringTimeToNumber(limitTime)
-    if (startTime.meridiem === "AM" && endTime.meridiem === "AM") {
-        if (startTime.hours > endTime.hours) {
-            let endHours = endTime.hours + 24
-            if (startTime.minutes > endTime.minutes) {
-                endHours = endHours  - 1
-                let endMinutes = endTime.minutes + 60
-                hours = endHours - startTime.hours
-                minutes = endMinutes - startTime.minutes
-                return { hours, minutes }
-            }
-            hours = endHours - startTime.hours
-            minutes = endTime.minutes - startTime.minutes
-            return{ hours, minutes }
+// Short Code
+function durationCalculator( startTime, endTime, addHours) {
+    let hours;
+	let minutes;
+    let seconds;
+    if (startTime.hours >= endTime.hours) {
+        endTime.hours = endTime.hours + addHours;
+        if (startTime.minutes > endTime.minutes) {
+            endTime.hours = endTime.hours - 1;
+            endTime.minutes = endTime.minutes + 60;
+            hours = endTime.hours - startTime.hours;
+            minutes = endTime.minutes - startTime.minutes;
+            
+            return { hours, minutes };
         }
+        hours = endTime.hours - startTime.hours;
+        minutes = endTime.minutes - startTime.minutes;
+        return { hours, minutes };
     }
-    if (startTime.meridiem === "AM" && endTime.meridiem === "PM") {
-        
+    if (startTime.minutes > endTime.minutes) {
+        endTime.hours = endTime.hours - 1;
+        endTime.minutes = endTime.minutes + 60;
+        hours = endTime.hours - startTime.hours;
+        minutes = endTime.minutes - startTime.minutes;
+        return { hours, minutes };
+    }
+    hours = endTime.hours - startTime.hours;
+    minutes = endTime.minutes - startTime.minutes;
+    return { hours, minutes };
+}
+
+// Long Code
+function timeDurationCalculator(fixedTime, limitTime) {
+	let hours;
+	let minutes;
+	let seconds;
+	const startTime = stringTimeToNumber(fixedTime);
+	const endTime = stringTimeToNumber(limitTime);
+	if (
+		(startTime.meridiem === 'AM' && endTime.meridiem === 'AM') ||
+		(startTime.meridiem === 'PM' && endTime.meridiem === 'PM')
+	) {
+		if (startTime.hours > endTime.hours) {
+			endTime.hours = endTime.hours + 24;
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1;
+				endTime.minutes = endTime.minutes + 60;
+				hours = endTime.hours - startTime.hours;
+				minutes = endTime.minutes - startTime.minutes;
+				return { hours, minutes };
+			}
+			hours = endTime.hours - startTime.hours;
+			minutes = endTime.minutes - startTime.minutes;
+			return { hours, minutes };
+		}
+		if (startTime.minutes > endTime.minutes) {
+			endTime.hours = endTime.hours - 1;
+			endTime.minutes = endTime.minutes + 60;
+			hours = endTime.hours - startTime.hours;
+			minutes = endTime.minutes - startTime.minutes;
+			return { hours, minutes };
+		}
+		hours = endTime.hours - startTime.hours;
+		minutes = endTime.minutes - startTime.minutes;
+		return { hours, minutes };
+	}
+	if (
+		(startTime.meridiem === 'AM' && endTime.meridiem === 'PM') ||
+		(startTime.meridiem === 'PM' && endTime.meridiem === "AM")
+    ) {
+		if (startTime.hours > endTime.hours) {
+			endTime.hours = endTime.hours + 12;
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1;
+				endTime.minutes = endTime.minutes + 60;
+				hours = endTime.hours - startTime.hours;
+				minutes = endTime.minutes - startTime.minutes;
+				return { hours, minutes };
+			}
+			hours = endTime.hours - startTime.hours;
+			minutes = endTime.minutes - startTime.minutes;
+			return { hours, minutes };
+		}
+		if (startTime.minutes > endTime.minutes) {
+			endTime.hours = endTime.hours - 1;
+			endTime.minutes = endTime.minutes + 60;
+			hours = endTime.hours - startTime.hours;
+			minutes = endTime.minutes - startTime.minutes;
+			return { hours, minutes };
+        }
+        endTime.hours = endTime.hours + 12
+		hours = endTime.hours - startTime.hours;
+		minutes = endTime.minutes - startTime.minutes;
+		return { hours, minutes };
+	}
+}
+
+// Check Meridiem Condition and Get Result
+function durationResult(fixedTime, limitTime) {
+    const startTime = stringTimeToNumber(fixedTime);
+    const endTime = stringTimeToNumber(limitTime);
+    if (
+		(startTime.meridiem === 'AM' && endTime.meridiem === 'AM') ||
+		(startTime.meridiem === 'PM' && endTime.meridiem === 'PM')
+    ) {
+        return durationCalculator(startTime, endTime, 24)
+    }
+    if (
+        (startTime.meridiem === 'AM' && endTime.meridiem === 'PM') ||
+        (startTime.meridiem === 'PM' && endTime.meridiem === "AM")
+    ) {
+        return durationCalculator(startTime, endTime, 12)
     }
 }
 
-console.log(calculateAMtoAM(fixedTime, limitTime))
+console.log(timeDurationCalculator(fixedTime, limitTime));
+console.log(durationResult(fixedTime, limitTime));
 
 
 
