@@ -2,8 +2,8 @@
  * Calculate the duration between two times
 */
 
-let fixedTime = '11:32:00 AM';
-let limitTime = new Date().toLocaleTimeString();
+let fixedTime = '10:10:00 PM';
+let limitTime = "10:20:00 PM";
 
 // Convert String Time to Number Time
 function stringTimeToNumber(startTime) {
@@ -21,28 +21,58 @@ function stringTimeToNumber(startTime) {
 function durationCalculator( startTime, endTime, addHours) {
     let hours;
 	let minutes;
-    let seconds;
-    if (startTime.hours >= endTime.hours) {
+	let seconds;
+    if (startTime.hours > endTime.hours) {
         endTime.hours = endTime.hours + addHours;
         if (startTime.minutes > endTime.minutes) {
             endTime.hours = endTime.hours - 1;
             endTime.minutes = endTime.minutes + 60;
             hours = endTime.hours - startTime.hours;
             minutes = endTime.minutes - startTime.minutes;
-            
             return { hours, minutes };
         }
         hours = endTime.hours - startTime.hours;
         minutes = endTime.minutes - startTime.minutes;
         return { hours, minutes };
-    }
+	}
+
+	if (startTime.hours === endTime.hours) {
+		if (addHours === 24) {
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours + addHours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+		}
+		if (addHours === 12) {
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours + addHours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+		}
+	}
     if (startTime.minutes > endTime.minutes) {
         endTime.hours = endTime.hours - 1;
         endTime.minutes = endTime.minutes + 60;
         hours = endTime.hours - startTime.hours;
         minutes = endTime.minutes - startTime.minutes;
         return { hours, minutes };
-    }
+	}
+	if (addHours === 12) {
+		if (startTime.hours === endTime.hours) {
+			if (endTime.minutes > startTime.minutes) {
+				endTime.hours = endTime.hours + addHours
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return{ hours, minutes }
+			}
+		}
+	}
     hours = endTime.hours - startTime.hours;
     minutes = endTime.minutes - startTime.minutes;
     return { hours, minutes };
@@ -72,6 +102,15 @@ function timeDurationCalculator(fixedTime, limitTime) {
 			minutes = endTime.minutes - startTime.minutes;
 			return { hours, minutes };
 		}
+		if (startTime.hours === endTime.hours) {
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours + 24 - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+		}
 		if (startTime.minutes > endTime.minutes) {
 			endTime.hours = endTime.hours - 1;
 			endTime.minutes = endTime.minutes + 60;
@@ -100,13 +139,22 @@ function timeDurationCalculator(fixedTime, limitTime) {
 			minutes = endTime.minutes - startTime.minutes;
 			return { hours, minutes };
 		}
+		if (startTime.hours === endTime.hours) {
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours + 12 - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+		}
 		if (startTime.minutes > endTime.minutes) {
 			endTime.hours = endTime.hours - 1;
 			endTime.minutes = endTime.minutes + 60;
 			hours = endTime.hours - startTime.hours;
 			minutes = endTime.minutes - startTime.minutes;
 			return { hours, minutes };
-        }
+		}
         endTime.hours = endTime.hours + 12
 		hours = endTime.hours - startTime.hours;
 		minutes = endTime.minutes - startTime.minutes;
