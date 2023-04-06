@@ -2,8 +2,8 @@
  * Calculate the duration between two times
 */
 
-let fixedTime = '10:10:00 PM';
-let limitTime = "10:20:00 PM";
+let fixedTime = '12:00:00 AM';
+let limitTime = "2:00:00 PM";
 
 // Convert String Time to Number Time
 function stringTimeToNumber(startTime) {
@@ -22,6 +22,36 @@ function durationCalculator( startTime, endTime, addHours) {
     let hours;
 	let minutes;
 	let seconds;
+	if (addHours === 24) {
+		if (startTime.hours === 12) {
+			endTime.hours = endTime.hours + 12
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+			hours = endTime.hours - startTime.hours
+			minutes = endTime.minutes - startTime.minutes
+			return { hours, minutes }
+		}
+	}
+	if (addHours === 12) {
+		if (startTime.hours === 12) {
+			endTime.hours = endTime.hours + 24
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+			hours = endTime.hours - startTime.hours
+			minutes = endTime.minutes - startTime.minutes
+			return { hours, minutes }
+		}
+	}
     if (startTime.hours > endTime.hours) {
         endTime.hours = endTime.hours + addHours;
         if (startTime.minutes > endTime.minutes) {
@@ -89,6 +119,19 @@ function timeDurationCalculator(fixedTime, limitTime) {
 		(startTime.meridiem === 'AM' && endTime.meridiem === 'AM') ||
 		(startTime.meridiem === 'PM' && endTime.meridiem === 'PM')
 	) {
+		if (startTime.hours === 12) {
+			endTime.hours = endTime.hours + 12
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+			hours = endTime.hours - startTime.hours
+			minutes = endTime.minutes - startTime.minutes
+			return { hours, minutes }
+		}
 		if (startTime.hours > endTime.hours) {
 			endTime.hours = endTime.hours + 24;
 			if (startTime.minutes > endTime.minutes) {
@@ -125,7 +168,20 @@ function timeDurationCalculator(fixedTime, limitTime) {
 	if (
 		(startTime.meridiem === 'AM' && endTime.meridiem === 'PM') ||
 		(startTime.meridiem === 'PM' && endTime.meridiem === "AM")
-    ) {
+	) {
+		if (startTime.hours === 12) {
+			endTime.hours = endTime.hours + 24
+			if (startTime.minutes > endTime.minutes) {
+				endTime.hours = endTime.hours - 1
+				endTime.minutes = endTime.minutes + 60
+				hours = endTime.hours - startTime.hours
+				minutes = endTime.minutes - startTime.minutes
+				return { hours, minutes }
+			}
+			hours = endTime.hours - startTime.hours
+			minutes = endTime.minutes - startTime.minutes
+			return { hours, minutes }
+		}
 		if (startTime.hours > endTime.hours) {
 			endTime.hours = endTime.hours + 12;
 			if (startTime.minutes > endTime.minutes) {
