@@ -1,6 +1,6 @@
 
-const startLunchTime = "12:59:00 PM"
-const endLunchTime = 59
+const startLunchTime = "5:49:00 AM"
+const endLunchTime = 679
 
 function stringTimeToNumber(stringTime) {
     const [startHours, startMinutes, startSecondsMeridiem] = stringTime.split(":")
@@ -14,7 +14,7 @@ function stringTimeToNumber(stringTime) {
 }
 function isTimeOver(startLunchTime, endLunchTime) {
     const startTime = stringTimeToNumber(startLunchTime)
-    const presentTime = stringTimeToNumber(new Date().toLocaleTimeString())
+    // const presentTime = stringTimeToNumber(new Date().toLocaleTimeString())
     let endHours = 0
     let endMinutes = 0
     let endMeridiem = ""
@@ -26,7 +26,7 @@ function isTimeOver(startLunchTime, endLunchTime) {
                     endHours = endHours % 12 ? endHours % 12: 12
                     endMinutes = startTime.minutes
                     endMeridiem = startTime.meridiem
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
             }
             if (endLunchTime > 60) {
@@ -36,11 +36,11 @@ function isTimeOver(startLunchTime, endLunchTime) {
                     if (endHours >= 24) {
                         endHours = endHours % 12 ? endHours % 12 : 12
                         endMeridiem = "PM"
-                        return { endHours, endMinutes, endMeridiem }
+                        return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                     }
                     endHours = endHours % 12 ? endHours % 12 : 12
                     endMeridiem = "AM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
             }
         }
@@ -53,14 +53,14 @@ function isTimeOver(startLunchTime, endLunchTime) {
                 if (endHours >= 12) {
                     endHours = endHours % 12 ? endHours % 12: 12
                     endMeridiem = "PM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
                 console.log("OK");
                 endMeridiem = startTime.meridiem
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             endMeridiem = startTime.meridiem
-            return { endHours, endMinutes, endMeridiem }
+            return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
         }
         if (endLunchTime === 60) {
             endHours = endHours + startTime.hours + 1
@@ -82,21 +82,20 @@ function isTimeOver(startLunchTime, endLunchTime) {
                 endMinutes = endMinutes % 60
                 if (endHours >= 12) {
                     endHours = endHours % 12 ? endHours % 12: 12
-                    endMinutes = startTime.minutes
                     endMeridiem = "PM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
                 endMeridiem = startTime.meridiem
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             if (endHours >= 12) {
                 endHours = endHours % 12 ? endHours % 12: 12
                 endMinutes = startTime.minutes
                 endMeridiem = "PM"
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             endMeridiem = startTime.meridiem
-            return { endHours, endMinutes, endMeridiem }
+            return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
         }
     }
     if (startTime.meridiem === "PM") {
@@ -107,7 +106,7 @@ function isTimeOver(startLunchTime, endLunchTime) {
                     endHours = endHours % 12 ? endHours % 12: 12
                     endMinutes = startTime.minutes
                     endMeridiem = startTime.meridiem
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
             }
             if (endLunchTime > 60) {
@@ -117,11 +116,11 @@ function isTimeOver(startLunchTime, endLunchTime) {
                     if (endHours >= 24) {
                         endHours = endHours % 12 ? endHours % 12 : 12
                         endMeridiem = "AM"
-                        return { endHours, endMinutes, endMeridiem }
+                        return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                     }
                     endHours = endHours % 12 ? endHours % 12 : 12
                     endMeridiem = "PM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
             }
         }
@@ -131,11 +130,11 @@ function isTimeOver(startLunchTime, endLunchTime) {
                 endHours = endHours % 12 ? endHours % 12: 12
                 endMinutes = startTime.minutes
                 endMeridiem = "AM"
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             endMinutes = startTime.minutes
             endMeridiem = startTime.meridiem
-            return { endHours, endMinutes, endMeridiem }
+            return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
         }
         if (endLunchTime < 60) {
             endHours = startTime.hours
@@ -146,13 +145,13 @@ function isTimeOver(startLunchTime, endLunchTime) {
                 if (endHours >= 12) {
                     endHours = endHours % 12 ? endHours % 12: 12
                     endMeridiem = "AM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
                 endMeridiem = startTime.meridiem
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             endMeridiem = startTime.meridiem
-            return { endHours, endMinutes, endMeridiem }
+            return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
         }
         if (endLunchTime > 60) {
             endHours = Math.floor(endLunchTime / 60) + startTime.hours
@@ -161,25 +160,23 @@ function isTimeOver(startLunchTime, endLunchTime) {
                 endHours = Math.floor(endMinutes / 60) + endHours
                 endMinutes = endMinutes % 60
                 if (endHours >= 12) {
-                    endHours = endHours % 12 ? endHours % 12: 12
-                    endMinutes = startTime.minutes
+                    endHours = endHours % 12 ? endHours % 12 : 12
                     endMeridiem = "AM"
-                    return { endHours, endMinutes, endMeridiem }
+                    return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
                 }
                 endMeridiem = startTime.meridiem
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             if (endHours >= 12) {
                 endHours = endHours % 12 ? endHours % 12: 12
                 endMinutes = startTime.minutes
                 endMeridiem = "AM"
-                return { endHours, endMinutes, endMeridiem }
+                return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
             }
             endMeridiem = startTime.meridiem
-            return { endHours, endMinutes, endMeridiem }
+            return { hours:endHours, minutes:endMinutes, meridiem:endMeridiem }
         }
     }
-
 }
 console.log(isTimeOver(startLunchTime, endLunchTime));
 
