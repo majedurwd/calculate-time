@@ -2,8 +2,8 @@
  * Calculate the duration between two times
 */
 
-let fixedTime = '12:00:00 AM';
-let limitTime = "2:00:00 PM";
+let fixedTime = '11:31:00 AM';
+let limitTime = "10:35:00 AM";
 
 // Convert String Time to Number Time
 function stringTimeToNumber(startTime) {
@@ -211,7 +211,7 @@ function timeDurationCalculator(fixedTime, limitTime) {
 			minutes = endTime.minutes - startTime.minutes;
 			return { hours, minutes };
 		}
-        endTime.hours = endTime.hours + 12
+        // endTime.hours = endTime.hours + 12
 		hours = endTime.hours - startTime.hours;
 		minutes = endTime.minutes - startTime.minutes;
 		return { hours, minutes };

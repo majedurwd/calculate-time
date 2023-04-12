@@ -1,6 +1,6 @@
 
-const startLunchTime = "5:49:00 AM"
-const endLunchTime = 679
+const startLunchTime = "10:30:00 AM"
+const endLunchTime = 579
 
 function stringTimeToNumber(stringTime) {
     const [startHours, startMinutes, startSecondsMeridiem] = stringTime.split(":")
@@ -14,7 +14,6 @@ function stringTimeToNumber(stringTime) {
 }
 function isTimeOver(startLunchTime, endLunchTime) {
     const startTime = stringTimeToNumber(startLunchTime)
-    // const presentTime = stringTimeToNumber(new Date().toLocaleTimeString())
     let endHours = 0
     let endMinutes = 0
     let endMeridiem = ""
@@ -178,6 +177,9 @@ function isTimeOver(startLunchTime, endLunchTime) {
         }
     }
 }
-console.log(isTimeOver(startLunchTime, endLunchTime));
+const endTime = isTimeOver(startLunchTime, endLunchTime)
+
+console.log(endTime)
+
 
 
